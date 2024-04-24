@@ -12,6 +12,9 @@ def serialize_callable(callable_handle: Callable) -> str:
     :param callable_handle: The callable to serialize
     :return: The full path of the callable
     """
+    if callable_handle is None:
+        return "None"
+
     module = inspect.getmodule(callable_handle)
 
     # Get the full package path of the function
@@ -30,6 +33,9 @@ def deserialize_callable(callable_handle: str) -> Optional[Callable]:
     :return: The callable
     :raises DeserializationError: If the callable cannot be found
     """
+    if callable_handle == "None":
+        return None
+
     parts = callable_handle.split(".")
     module_name = ".".join(parts[:-1])
     function_name = parts[-1]
